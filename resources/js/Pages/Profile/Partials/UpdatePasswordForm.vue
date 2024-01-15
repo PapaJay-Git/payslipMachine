@@ -2,6 +2,7 @@
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -36,7 +37,14 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">Update PIN</h2>
+            <div class="flex justify-between items-center">
+
+                <h2 class="text-lg font-medium text-gray-900">Update PIN</h2>
+
+                <SecondaryButton type="button" @click="$inertia.visit('/dashboard')">
+                    Back
+                </SecondaryButton>
+            </div>
 
             <p class="mt-1 text-sm text-gray-600">
                 Ensure your account is using a random 6 Digit PIN to stay secure.
@@ -88,8 +96,7 @@ const updatePassword = () => {
                 <InputError :message="form.errors.password_confirmation" class="mt-2" />
             </div>
 
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+            <div class="flex items-center justify-end gap-4">
 
                 <Transition
                     enter-active-class="transition ease-in-out"
@@ -99,6 +106,8 @@ const updatePassword = () => {
                 >
                     <p v-if="form.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
                 </Transition>
+
+                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
             </div>
         </form>
     </section>

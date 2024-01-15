@@ -17,12 +17,10 @@ defineProps({
 
 const form = useForm({
     employee_number: '',
-    password: '',
-    remember: false,
 });
 
 const submit = () => {
-    form.post(route('check_employee_number'), {
+    form.post(route('loginEmployeeNumber'), {
         onFinish: () => form.reset('password'),
     });
 };
@@ -42,12 +40,12 @@ const submit = () => {
 
                 <TextInput
                     id="employee_number"
-                    type="text"
+                    type="number"
                     class="mt-1 block w-full"
                     v-model="form.employee_number"
                     required
                     autofocus
-                    autocomplete="username"
+                    autocomplete="off"
                 />
 
                 <InputError class="mt-2" :message="form.errors.employee_number" />

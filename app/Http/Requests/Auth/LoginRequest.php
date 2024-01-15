@@ -45,7 +45,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'employee_number' => trans('auth.failed'),
+                'password' => 'Invalid PIN',
             ]);
         }
 
