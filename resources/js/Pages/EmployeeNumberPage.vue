@@ -16,7 +16,7 @@ defineProps({
 });
 
 const form = useForm({
-    employee_number: '',
+    employee_number: "",
 });
 
 const submit = () => {
@@ -40,7 +40,7 @@ const submit = () => {
 
                 <TextInput
                     id="employee_number"
-                    type="number"
+                    type="text"
                     class="mt-1 block w-full"
                     v-model="form.employee_number"
                     required

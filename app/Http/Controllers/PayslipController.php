@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PayslipController extends Controller
 {
@@ -11,7 +12,7 @@ class PayslipController extends Controller
      */
     public function index()
     {
-        dd(1);
+        return Inertia::render('Payslip');
     }
 
     /**
