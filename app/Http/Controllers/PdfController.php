@@ -12,7 +12,7 @@ class PdfController extends Controller
     {
         $data = ['some' => 'data']; // Replace with your data
 
-        //return view('pdf.view');
+        return view('pdf.view');
         $pdf = PDF::loadView('pdf.view', $data);
 
         // $pdfPath = 'public/pdf/' . uniqid() . '.pdf';

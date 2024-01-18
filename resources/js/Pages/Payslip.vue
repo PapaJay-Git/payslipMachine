@@ -1,58 +1,34 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 
-const print = () => {
-      // Your printing code here
-      const prtHtml = document.getElementById('printJS-Table').innerHTML;
-      let stylesHtml = '';
-      for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
-        stylesHtml += node.outerHTML;
-      }
+const generatePDF = async () => {
 
-      const WinPrint = window.open('', '', 'left=0,top=0,width=3000,height=1000,toolbar=0,scrollbars=0,status=0,fullscreen=1');
-
-      WinPrint.document.write(`<!DOCTYPE html>
-        <html>
-          <head>
-            ${stylesHtml}
-            <style>
-            @media print {
-                @page {
-                    size: portrait;
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    padding-left: 20px;
-                    padding-right: 20px;
-                }
-            }
-            </style>
-          </head>
-          <body>
-            ${prtHtml}
-          </body>
-        </html>`);
-
-      WinPrint.document.close();
-      WinPrint.focus();
-      WinPrint.print();
-      WinPrint.close();
-};
-
-const generatePDF = () => {
     const pdfUrl = '/generate-pdf';
 
     const newWindow = window.open(pdfUrl, '_blank');
 
-    newWindow.onload = () => {
-        newWindow.print();
+    const waitForPDF = () => new Promise(resolve => {
+        newWindow.onload = () => {
+            resolve();
+        };
+    });
 
+    try {
+        await waitForPDF();
+
+        newWindow.print();
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+    } finally {
         setTimeout(() => {
             newWindow.close();
         }, 1000);
-    };
-}
+
+        await router.visit('logoutPrint', { method: 'post' });
+    }
+};
 </script>
 
 <template>
@@ -89,169 +65,125 @@ const generatePDF = () => {
                                     <th class="px-1 pt-3 font-bold text-xs text-center" colspan="11">Zone 2 Sta. Rosa Road Brgy Maliwalo Tarlac, City</th>
                                 </tr>
                                 <tr>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">EMPLOYEE NAME:</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">EMPLOYEE NAME:</th>
                                     <th class="px-1 py-1 font-bold text-xs text-start" colspan="3">LIWANAG JULIUS</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">JOB STATUS:</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">REGULAR</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">PAY RATE:</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">JOB STATUS:</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">REGULAR</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">PAY RATE:</th>
                                     <th class="px-1 py-1 font-bold text-xs text-start" colspan="2">450.00</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">NO OFF DAYS</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="2">NO OFF DAYS</th>
                                 </tr>
                                 <tr >
-                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start">DEPARTMENT:</th>
+                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="1">DEPARTMENT:</th>
                                     <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="3">Logistics and Warehouse Department</th>
-                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start">RANK FILE:</th>
-                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start">STAFF</th>
-                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start">POSITION:</th>
+                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="1">RANK FILE:</th>
+                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="1">STAFF</th>
+                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="1">POSITION:</th>
                                     <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="2">Delivery Driver</th>
-                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start">5</th>
+                                    <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="2">5</th>
                                 </tr>
                             </thead>
                             <thead class="bg-gray-200 border-2 border-black">
                                 <tr>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">EARNINGS</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">HOUR(S)</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">AMOUNT</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">DEDUCTIONS</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">AMOUNT</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">DEDUCTIONS</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">AMOUNT</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">CONTRIBUTIONS</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">AMOUNT</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">CONTRIBUTIONS</th>
-                                    <th class="px-1 py-1 font-bold text-xs text-start">AMOUNT</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">EARNINGS</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">HOUR(S)</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="2">AMOUNT</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">DEDUCTIONS</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="2">AMOUNT</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">CONTRIBUTIONS</th>
+                                    <th class="px-1 py-1 font-bold text-xs text-start" colspan="3">AMOUNT</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">BASIC PAY</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">2300</td>
-                                    <td class="px-1 py-1 text-xs text-start">ADVANCE</td>
-                                    <td class="px-1 py-1 text-xs text-start">.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">BOND DEPOSIT</td>
-                                    <td class="px-1 py-1 text-xs text-start">.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">SSS LOAN</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
-                                    <td class="px-1 py-1 text-xs text-start">PHIL HEALTH</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">BASIC PAY</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">2300</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">ADVANCE</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">SSS LOAN</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">OVERTIME</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
-                                    <td class="px-1 py-1 text-xs text-start">0.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">CHARGE</td>
-                                    <td class="px-1 py-1 text-xs text-start">.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">MISC</td>
-                                    <td class="px-1 py-1 text-xs text-start">.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">SSS PREM</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">MUTUAL LOAN</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">OVERTIME</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">CHARGE</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">SSS PREM</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">OVERTIME</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
-                                    <td class="px-1 py-1 text-xs text-start">0.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">CHARGE</td>
-                                    <td class="px-1 py-1 text-xs text-start">.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">MISC</td>
-                                    <td class="px-1 py-1 text-xs text-start">.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">SSS PREM</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">MUTUAL LOAN</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">HOLIDAYS</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">MEAL</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">PAGIBIG LOAN</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">OFFSET</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
-                                    <td class="px-1 py-1 text-xs text-start">0.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">MEAL</td>
-                                    <td class="px-1 py-1 text-xs text-start">.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">MUTUAL CHARGE</td>
-                                    <td class="px-1 py-1 text-xs text-start">.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">PAGIBIG LOAN</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
-                                    <td class="px-1 py-1 text-xs text-start">PAGIBIG PREM</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">NIGHT DIFF</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">UNIFORM</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">PHIL HEALTH</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">NIGHT DIFF</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
-                                    <td class="px-1 py-1 text-xs text-start">0.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">UNIFORM</td>
-                                    <td class="px-1 py-1 text-xs text-start">.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">OFFDAYS</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">BOND DEPOSIT</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">MUTUAL LOAN</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">OFFDAYS</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">0.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">LATE</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">MUTUAL CHARGE</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">PAGIBIG PREM</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">HOLIDAY</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">0.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">SLVL</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">MISC</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">SLVL</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">0.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">PER TRIP</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">LATE</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
-                                    <td class="px-1 py-1 text-xs text-start">0.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">UDT/HDY</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-1 py-1 text-xs text-start">UDT/HDY</td>
-                                    <td class="px-1 py-1 text-xs text-start">0</td>
-                                    <td class="px-1 py-1 text-xs text-start">0.00</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
-                                    <td class="px-1 py-1 text-xs text-start">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">CT LATE</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="2">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
+                                    <td class="px-1 py-1 text-xs text-start" colspan="3">-</td>
                                 </tr>
                             </tbody>
                             <thead class="bg-gray-200 border-2 border-black">
@@ -269,9 +201,8 @@ const generatePDF = () => {
                                     <th class="px-1 pt-5 text-xs text-start border-b-2 border-black" colspan="3"></th>
                                 </tr>
                                 <tr>
-                                    <th class="px-1 py-1 text-xs text-start" colspan="9"></th>
-                                    <th class="px-1 py-1 text-xs text-center">SIGNATURE</th>
-                                    <th class="px-1 py-1 text-xs text-center"></th>
+                                    <th class="px-1 py-1 text-xs text-start" colspan="8"></th>
+                                    <th class="px-1 py-1 text-xs text-center" colspan="3">SIGNATURE</th>
                                 </tr>
                             </tbody>
                         </table>

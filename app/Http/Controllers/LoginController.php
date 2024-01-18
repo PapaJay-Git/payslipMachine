@@ -30,8 +30,11 @@ class LoginController extends Controller
             return redirect()->route('login.show');
 
         } else {
-            // If employee_number is not set or empty
-            return Inertia::render('EmployeeNumberPage');
+            $message = session('message', '');
+            Session::forget('message');
+            return Inertia::render('EmployeeNumberPage', [
+                'message' => $message
+            ]);
         }
     }
 

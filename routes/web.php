@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PayslipController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
@@ -18,16 +19,5 @@ use Inertia\Inertia;
 |
 */
 
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware('auth')->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/pin', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::get('/print', [PayslipController::class, 'show']);
-
-    Route::get('/generate-pdf', [PdfController::class, 'generatePdf']);
-});
 
 require __DIR__.'/auth.php';

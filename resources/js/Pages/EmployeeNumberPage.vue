@@ -5,14 +5,27 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref, onMounted } from 'vue';
 
-defineProps({
-    canResetPassword: {
-        type: Boolean,
-    },
-    status: {
+const props = defineProps({
+    message: {
         type: String,
+        default: '',
     },
+});
+
+const isVanishedText = ref(false);
+const isVanishedContainer = ref(false);
+
+onMounted(() => {
+
+    setTimeout(() => {
+        isVanishedText.value = true;
+    }, 5000);
+
+    setTimeout(() => {
+        isVanishedContainer.value = true;
+    }, 5750);
 });
 
 const form = useForm({
@@ -30,8 +43,8 @@ const submit = () => {
     <GuestLayout>
         <Head title="Enter Employee Number" />
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
+        <div v-if="props.message !== ''" class="mb-4 font-medium text-md text-blue-600 text-center animate-pulse" :class="{'transition-all duration-700 ease-linear hidden': isVanishedContainer}">
+            <span :class="{ 'opacity-0 transition-opacity duration-700 ease-linear': isVanishedText }">{{ props.message }}</span>
         </div>
 
         <form @submit.prevent="submit">
@@ -60,3 +73,10 @@ const submit = () => {
         </form>
     </GuestLayout>
 </template>
+
+<style scoped>
+.vanish-text {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+</style>

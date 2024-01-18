@@ -10,6 +10,10 @@ defineProps({
     status: {
         type: String,
     },
+    pinMessage: {
+        type: String,
+        default: '',
+    }
 });
 </script>
 
@@ -24,7 +28,7 @@ defineProps({
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdatePasswordForm class="w-full" />
+                    <UpdatePasswordForm class="w-full" :pin-message="pinMessage" />
                 </div>
             </div>
         </div>

@@ -7,6 +7,12 @@ import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
+defineProps({
+    pinMessage: {
+        type: String,
+        default: '',
+    }
+});
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
 
@@ -39,7 +45,7 @@ const updatePassword = () => {
         <header>
             <div class="flex justify-between items-center">
 
-                <h2 class="text-lg font-medium text-gray-900">Update PIN</h2>
+                <h2 class="text-lg font-medium text-gray-900">{{ pinMessage == '' ? 'Update PIN' : pinMessage }}</h2>
 
                 <SecondaryButton type="button" @click="$inertia.visit('/dashboard')">
                     Back
