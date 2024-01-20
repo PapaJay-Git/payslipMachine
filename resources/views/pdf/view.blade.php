@@ -130,21 +130,21 @@
             </tr>
             <tr>
                 <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">EMPLOYEE NAME:</th>
-                <th class="px-1 py-1 font-bold text-xs text-start" colspan="3">LIWANAG JULIUS</th>
+                <th class="px-1 py-1 font-bold text-xs text-start" colspan="3">{{ $data['employee_name'] }}</th>
                 <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">JOB STATUS:</th>
-                <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">REGULAR</th>
+                <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">{{  $data['job_status'] }}</th>
                 <th class="px-1 py-1 font-bold text-xs text-start" colspan="1">PAY RATE:</th>
-                <th class="px-1 py-1 font-bold text-xs text-start" colspan="2">450.00</th>
+                <th class="px-1 py-1 font-bold text-xs text-start" colspan="2">{{ $data['pay_rate'] }}</th>
                 <th class="px-1 py-1 font-bold text-xs text-start" colspan="2">NO OFF DAYS</th>
             </tr>
             <tr >
                 <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="1">DEPARTMENT:</th>
-                <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="3">Logistics and Warehouse Department</th>
+                <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="3">{{ $data['department'] }}</th>
                 <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="1">RANK FILE:</th>
-                <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="1">STAFF</th>
+                <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="1">{{ $data['rank_file'] }}</th>
                 <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="1">POSITION:</th>
-                <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="2">Delivery Driver</th>
-                <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="2">5</th>
+                <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="2">{{ $data['job_title'] }}</th>
+                <th class="px-1 pt-1 pb-3 font-bold text-xs text-start" colspan="2">{{ $data['offdays'] }}</th>
             </tr>
         </thead>
         <thead class="bg-gray-200 border-2 border-black">
@@ -161,71 +161,73 @@
         <tbody>
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">BASIC PAY</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">2300</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['no_days_sched']*8 }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['no_days_sched']*$data['pay_rate'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">ADVANCE</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['advance'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">SSS LOAN</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="3">{{ $data['sss_loan'] }}</td>
             </tr>
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">OVERTIME</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['ot_hrs'] }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['ot_amount'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">CHARGE</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['charge'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">SSS PREM</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="3">{{ $data['sss_prem'] }}</td>
             </tr>
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">HOLIDAYS</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['holiday_hrs'] }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['holiday_amount'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">MEAL</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['canteen'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">PAGIBIG LOAN</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="3">{{ $data['pag_ibig_loan'] }}</td>
             </tr>
+
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">NIGHT DIFF</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['nightdif'] }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['nightdif_amount'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">UNIFORM</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['uniform'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">PHIL HEALTH</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="3">{{ $data['philhealth'] }}</td>
             </tr>
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">OFFDAYS</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['offdays'] }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">0</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">BOND DEPOSIT</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['bond_deposit'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">MUTUAL LOAN</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="3">{{ $data['mutual_loan'] }}</td>
             </tr>
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">LATE</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['minutes_late'] }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['late_amount'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">MUTUAL CHARGE</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['mutual_charge'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">PAGIBIG PREM</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="3">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="3">{{ $data['pag_ibig_prem'] }}</td>
             </tr>
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">SLVL</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['slvl_hrs'] }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['slvl_amount'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">MISC</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['misc'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="3">-</td>
             </tr>
+
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">PER TRIP</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['per_trip'] }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">0</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="2">-</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
@@ -233,8 +235,8 @@
             </tr>
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">UDT/HDY</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['udt_hrs'] }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">{{ $data['udt_amount'] }}</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="2">-</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
@@ -242,8 +244,8 @@
             </tr>
             <tr>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">CT LATE</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="1">0</td>
-                <td class="px-1 py-1 text-xs text-start" colspan="2">0.00</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="1">{{ $data['ctlate'] }}</td>
+                <td class="px-1 py-1 text-xs text-start" colspan="2">0</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="2">-</td>
                 <td class="px-1 py-1 text-xs text-start" colspan="1">-</td>
@@ -252,11 +254,11 @@
         </tbody>
         <thead class="bg-gray-200 border-2 border-black">
             <tr>
-                <th class="px-1 py-1 text-xs text-start" colspan="2">GROSS EARNINGS: 2300</th>
-                <th class="px-1 py-1 text-xs text-start" colspan="2">RETRO: 0</th>
-                <th class="px-1 py-1 text-xs text-start" colspan="2">TOTAL DEDUCTIONS: 0</th>
-                <th class="px-1 py-1 text-xs text-start" colspan="3">TOTAL CONTRIBUTIONS: 0</th>
-                <th class="px-1 py-1 text-xs text-start" colspan="2">NET PAY: 2300</th>
+                <th class="px-1 py-1 text-xs text-start" colspan="2">GROSS EARNINGS: {{ $calculateGrossEarnings }}</th>
+                <th class="px-1 py-1 text-xs text-start" colspan="2">RETRO: {{ $data['retro'] }}</th>
+                <th class="px-1 py-1 text-xs text-start" colspan="2">TOTAL DEDUCTIONS: {{ $calculateTotalDeductions }}</th>
+                <th class="px-1 py-1 text-xs text-start" colspan="3">TOTAL CONTRIBUTIONS: {{ $calculateTotalContributions }}</th>
+                <th class="px-1 py-1 text-xs text-start" colspan="2">NET PAY: {{ $calculateGrossEarnings - ($calculateTotalDeductions + $calculateTotalContributions) }}</th>
             </tr>
         </thead>
         <tbody>
