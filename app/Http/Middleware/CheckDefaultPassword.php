@@ -22,9 +22,9 @@ class CheckDefaultPassword
 
         $currentPassword = $user->password;
 
-        Session::put('pinMessage', 'Change Default PIN.');
-
         if(Hash::check('123456', $currentPassword)){
+            Session::put('pinMessage', 'Change Default PIN.');
+
             return redirect("/pin");
         }
 

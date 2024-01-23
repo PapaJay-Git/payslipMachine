@@ -39,6 +39,7 @@ Route::middleware('auth', 'CheckDefaultPassword')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/pin', [ProfileController::class, 'edit'])->name('profile.edit');
+
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
