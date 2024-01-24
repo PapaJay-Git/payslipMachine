@@ -24,8 +24,6 @@ Route::middleware('auth', 'CheckDefaultPassword')->group(function () {
 
     Route::post('logoutPrint', [AuthenticatedSessionController::class, 'destroyPrint'])->name('logout.print');
 
-    Route::get('/print', [PayslipController::class, 'show']);
-
     Route::get('/generate-pdf', [PdfController::class, 'generatePdf']);
 
     Route::get('/dashboard', function () {

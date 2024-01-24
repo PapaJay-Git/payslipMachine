@@ -24,15 +24,15 @@ const generatePDF = async () => {
     try {
         await waitForPDF();
 
-        // newWindow.print();
+        newWindow.print();
     } catch (error) {
         console.error('Error generating PDF:', error);
     } finally {
-        // setTimeout(() => {
-        //     newWindow.close();
-        // }, 1000);
+        setTimeout(() => {
+            newWindow.close();
+        }, 1000);
 
-        // await router.visit('logoutPrint', { method: 'post' });
+        await router.visit('logoutPrint', { method: 'post' });
     }
 };
 
@@ -117,7 +117,7 @@ const calculateTotalContributions = () => {
                                             EMPLOYEE NAME:
                                         </span>
                                         <span class="inline-block pe-1">
-                                            {{ data.employee_name }}
+                                            {{ data.fullname }}
                                         </span>
                                     </th>
                                     <th class="px-1 py-1 font-bold text-[11px] text-start" colspan="2">

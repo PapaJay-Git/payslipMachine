@@ -7,6 +7,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class PdfController extends Controller
 {
@@ -59,7 +60,7 @@ class PdfController extends Controller
         ->leftJoin('employees', 'emp_final_posts_test.employee_no', '=', 'employees.employee_no')
         ->leftJoin('departments', 'employees.department', '=', 'departments.dept_code')
         ->where('app_users.employee_number', Auth::user()->employee_number)
-        ->where('emp_final_posts_test.status', 'finished')
+        ->where('emp_final_posts_test.status', '0')
         ->select(
             [
                 'emp_final_posts_test.*',
@@ -81,14 +82,19 @@ class PdfController extends Controller
                 'employees.job_status',
                 'employees.pay_rate',
                 'employees.job_title',
+                'employees.fullname',
             ]
         )
         ->first();
 
+        if($data == NULL){
+            return redirect('/payslip');
+       }
 
         $calculateGrossEarnings = $this->calculateGrossEarnings($data);
         $calculateTotalDeductions = $this->calculateTotalDeductions($data);
         $calculateTotalContributions = $this->calculateTotalContributions($data);
+
 
         // return view('pdf.view');
         $pdf = PDF::loadView('pdf.view',

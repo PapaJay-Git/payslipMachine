@@ -338,7 +338,7 @@
                         EMPLOYEE NAME:
                     </span>
                     <span class="inline-block pe-1">
-                        {{ $data['employee_name'] }}
+                        {{ $data['fullname'] }}
                     </span>
                 </th>
                 <th class="px-1 py-1 font-bold text-xs text-start" colspan="2">

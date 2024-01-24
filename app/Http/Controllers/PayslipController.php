@@ -32,7 +32,7 @@ class PayslipController extends Controller
         ->leftJoin('employees', 'emp_final_posts_test.employee_no', '=', 'employees.employee_no')
         ->leftJoin('departments', 'employees.department', '=', 'departments.dept_code')
         ->where('app_users.employee_number', Auth::user()->employee_number)
-        ->where('emp_final_posts_test.status', 'finished')
+        ->where('emp_final_posts_test.status', '0')
         ->select(
             [
                 'emp_final_posts_test.*',
@@ -54,10 +54,16 @@ class PayslipController extends Controller
                 'employees.job_status',
                 'employees.pay_rate',
                 'employees.job_title',
+                'employees.fullname',
             ]
         )
         ->first();
 
+       if($data == NULL){
+            return Inertia::render('NoData', [
+                'data' => $data
+            ]);
+       }
 
         return Inertia::render('Payslip', [
             'data' => $data
