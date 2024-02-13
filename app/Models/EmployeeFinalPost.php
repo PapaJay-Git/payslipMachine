@@ -14,5 +14,5 @@ class EmployeeFinalPost extends Model
      *
      *
      */
-    protected $table = 'emp_final_posts_test';
+    protected $table = 'emp_final_posts';
 }

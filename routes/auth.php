@@ -32,9 +32,6 @@ Route::middleware('auth', 'CheckDefaultPassword')->group(function () {
 
 });
 
-
-
-
 Route::middleware('auth')->group(function () {
     Route::get('/pin', [ProfileController::class, 'edit'])->name('profile.edit');
 

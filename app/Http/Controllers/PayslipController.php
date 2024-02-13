@@ -26,19 +26,18 @@ class PayslipController extends Controller
 
         // dd($emp);
 
-        $data = User::leftJoin('emp_final_posts_test', 'app_users.employee_number', '=', 'emp_final_posts_test.employee_no')
-        ->leftJoin('employee_deductions', 'emp_final_posts_test.employee_no', '=', 'employee_deductions.employee_no')
-        ->leftJoin('employee_contributions', 'emp_final_posts_test.employee_no', '=', 'employee_contributions.employee_no')
-        ->leftJoin('employees', 'emp_final_posts_test.employee_no', '=', 'employees.employee_no')
-        ->leftJoin('departments', 'employees.department', '=', 'departments.dept_code')
+        $data = User::leftJoin('emp_final_posts', 'app_users.employee_number', '=', 'emp_final_posts.employee_no')
+        ->leftJoin('employee_deductions', 'emp_final_posts.employee_no', '=', 'employee_deductions.employee_no')
+        ->leftJoin('employee_contributions', 'emp_final_posts.employee_no', '=', 'employee_contributions.employee_no')
+        ->leftJoin('employees', 'emp_final_posts.employee_no', '=', 'employees.employee_no')
         ->where('app_users.employee_number', Auth::user()->employee_number)
-        ->where('emp_final_posts_test.status', '0')
+        ->where('emp_final_posts.status', '1')
         ->select(
             [
-                'emp_final_posts_test.*',
+                'emp_final_posts.*',
                 'employee_deductions.advance',
                 'employee_deductions.charge',
-                'employee_deductions.canteen',
+                'employee_deductions.meal',
                 'employee_deductions.misc',
                 'employee_deductions.uniform',
                 'employee_deductions.bond_deposit',
@@ -49,7 +48,6 @@ class PayslipController extends Controller
                 'employee_contributions.sss_prem',
                 'employee_contributions.pag_ibig_prem',
                 'employee_contributions.philhealth',
-                'departments.department',
                 'employees.rank_file',
                 'employees.job_status',
                 'employees.pay_rate',
