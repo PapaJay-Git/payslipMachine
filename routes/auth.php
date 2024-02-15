@@ -41,3 +41,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('logoutPassword', [AuthenticatedSessionController::class, 'destroyPassword'])->name('logout.password');
 });
+
+Route::get('/modal', function () {
+    return Inertia::render('Modal');
+});

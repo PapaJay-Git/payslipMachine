@@ -255,7 +255,7 @@
 
         /* Font Size */
         .text-xs {
-            font-size: 0.55rem;
+            font-size: 0.53rem;
         }
 
         /* Font Weight */
@@ -281,6 +281,10 @@
         /* Border */
         .border-2 {
             border-width: 2px;
+            border-style: solid;
+        }
+        .border-1 {
+            border-width: 1px;
             border-style: solid;
         }
 
@@ -311,9 +315,9 @@
 
         @page {
             size: 8.5in 11in;
-            margin-left: 30px;
-            margin-right: 30px;
-            margin-top: 30px;
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 25px;
 
         }
 
@@ -468,7 +472,7 @@
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">OVERTIME</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $overtimeDA }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['ot_hrs'] }}</td>
-                <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $overallDays }}</td>
+                <td class="pe-5 ps-1 py-1 text-xs text-start border-black border-1" colspan="1">{{ $overallDays }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['ot_amount'] }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">MISC</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['misc'] }}</td>
@@ -480,7 +484,7 @@
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">NIGHT DIFF</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['nightdif_amount'] }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['nightdif'] }}</td>
-                <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{  }}</td>
+                <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1"></td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['nightdif_amount'] }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">MEAL</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['meal'] }}</td>
@@ -492,7 +496,7 @@
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">LATE</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['late_amount'] }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['minutes_late']." min" }}</td>
-                <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{  }}</td>
+                <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1"></td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['late_amount'] }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">MUTUAL CHARGE</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['mutual_charge'] }}</td>
@@ -504,7 +508,7 @@
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">UDT/HDY</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['udt_amount'] }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['udt_hrs'] }}</td>
-                <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{  }}</td>
+                <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1"></td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['udt_amount'] }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1"></td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1"></td>
@@ -516,7 +520,7 @@
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">CT LATE</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['ctlate_amount'] }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['ctlate']." min" }}</td>
-                <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{  }}</td>
+                <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1"></td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">{{ $data['ctlate_amount'] }}</td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1"></td>
                 <td class="pe-5 ps-1 py-1 text-xs text-start" colspan="1"></td>
@@ -528,21 +532,21 @@
         <thead class="bg-gray-200 border-2 border-black">
             <tr>
                 <th class="pe-5 ps-1 py-1 text-xs text-start" colspan="2">GROSS EARNINGS: {{ number_format($totalearnings, 2, '.', '') }}</th>
-                <th class="pe-5 ps-1 py-1 text-xs text-start" colspan="2">RETRO: {{ number_format($data['retro'], 2, '.', '')  }}</th>
+                <th class="pe-5 ps-1 py-1 text-xs text-start" colspan="1">RETRO: {{ number_format($data['retro'], 2, '.', '')  }}</th>
                 <th class="pe-5 ps-1 py-1 text-xs text-start" colspan="2">OTHER DEDUCTIONS: {{ number_format($otherdeduc, 2, '.', '') }}</th>
                 <th class="pe-5 ps-1 py-1 text-xs text-start" colspan="2">TOTAL DEDUCTIONS: {{ number_format($totaldeduc, 2, '.', '') }}</th>
                 <th class="pe-5 ps-1 py-1 text-xs text-start" colspan="2">TOTAL CONTRIBUTIONS: {{ number_format($totalcontri, 2, '.', '') }}</th>
-                <th class="pe-5 ps-1 py-1 text-xs text-start" colspan="2">NET PAY: {{ number_format($net, 2, '.', '') }}</th>
+                <th class="pe-5 ps-1 py-1 text-xs text-start" colspan="3">NET PAY: {{ number_format($net, 2, '.', '') }}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th class="pe-5 ps-1 pt-5 text-xs text-start" colspan="8"></th>
-                <th class="pe-5 ps-1 pt-5 text-xs text-start border-b-2 border-black" colspan="3"></th>
+                <th class="pe-5 ps-1 pt-5 text-xs text-start border-b-2 border-black" colspan="4"></th>
             </tr>
             <tr>
                 <th class="pe-5 ps-1 py-1 text-xs text-start" colspan="8"></th>
-                <th class="pe-5 ps-1 py-1 text-xs text-center" colspan="3">SIGNATURE</th>
+                <th class="pe-5 ps-1 py-1 text-xs text-center" colspan="4">SIGNATURE</th>
             </tr>
         </tbody>
     </table>
