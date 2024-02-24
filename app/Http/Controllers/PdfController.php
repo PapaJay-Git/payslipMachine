@@ -33,6 +33,19 @@ class PdfController extends Controller
         $this->basicHrs = $this->basicPay / (($this->basicPay / $this->basic) / 8);
         $this->basicDays = $this->basicHrs / 8;
 
+        if ($data['basic_pay'] > 0 && $data['department'] != "Logistics and Warehouse Department") {
+            $this->basic = $data['days'] - $data['slvl_hrs'] - $data['holiday_hrs'] - $data['offdays'];
+            $this->basicPay = $data['pay_rate'] * $this->basic;
+            $this->basicHrs = $this->basicPay / (($this->basicPay / $this->basic) / 8);
+            $this->basicDays = $this->basicHrs / 8;
+
+        } elseif ($data['basic_pay'] > 0 && $data['department'] == "Logistics and Warehouse Department") {
+            $this->basic = $data['days'] - $data['slvl_hrs'] - $data['holiday_hrs'] - $data['offdays'];
+            $this->basicPay = $data['pertrip_amount'];
+            $this->basicHrs = $data['per_trip'];
+            $this->basicDays = $data['per_trip'];
+        }
+
         // HOLIDAYS
         $this->holidayHrs =  ($data['holiday_amount'] / $data['pay_rate']) * 8;
         $this->holidayDA = $data['holiday_hrs'] != 0 ? $data['holiday_amount'] / $data['holiday_hrs'] : 0;

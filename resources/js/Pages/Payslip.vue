@@ -36,34 +36,56 @@ watch(() => props.data, (newData, oldData) => {
     calculateData(newData);
 });
 
+const parseFloatIsNaN = (value) => {
+   return isNaN(parseFloat(value)) ? 0 : parseFloat(value);
+};
+
+const parseIntIsNaN = (value) => {
+   return isNaN(parseInt(value)) ? 0 : parseInt(value);
+};
+
 const calculateData = (data) => {
     // BASIC PAY
-    basic.value = data.days - data.slvl_hrs - data.holiday_hrs - data.offdays;
-    basicPay.value = data.pay_rate * basic.value;
+    basic.value = parseIntIsNaN(data.days) - parseIntIsNaN(data.slvl_hrs) - parseIntIsNaN(data.holiday_hrs) - parseIntIsNaN(data.offdays) ;
+    basicPay.value = parseFloatIsNaN(data.pay_rate) * basic.value;
     basicHrs.value = basicPay.value / ((basicPay.value / basic.value) / 8);
     basicDays.value = basicHrs.value / 8;
 
+    if (parseFloatIsNaN(data.basic_pay) > 0 && data.department != "Logistics and Warehouse Department") {
+        basicPay.value = parseFloatIsNaN(data.pay_rate) * basic.value;
+        basicHrs.value = basicPay.value / ((basicPay.value / basic.value) / 8);
+        basicDays.value = basicHrs.value / 8;
+
+    } else if (parseFloatIsNaN(data.basic_pay) > 0 && data.department == "Logistics and Warehouse Department") {
+        basicPay.value = parseFloatIsNaN(data.pertrip_amount);
+        basicHrs.value = parseFloatIsNaN(data.per_trip);
+        basicDays.value = parseFloatIsNaN(data.per_trip);
+    }
+
     // HOLIDAYS
-    holidayHrs.value =  (data.holiday_amount / data.pay_rate) * 8;
-    holidayDA.value = data.holiday_hrs != 0 ? data.holiday_amount / data.holiday_hrs : 0;
+    holidayHrs.value =  (parseFloatIsNaN(data.holiday_amount) / parseFloatIsNaN(data.pay_rate)) * 8;
+    holidayDA.value = parseIntIsNaN(data.holiday_hrs) != 0 ? parseFloatIsNaN(data.holiday_amount) / parseIntIsNaN(data.holiday_hrs) : 0;
 
     //SLVL
-    slvlHrs.value =  (data.slvl_amount / data.pay_rate) * 8;
-    slvlDays.value = data.slvl_hrs != 0 ? data.pay_rate / data.slvl_amount : 0;
+    slvlHrs.value =  (parseFloatIsNaN(data.slvl_amount) / parseFloatIsNaN(data.pay_rate)) * 8;
+    slvlDays.value = parseIntIsNaN(data.slvl_hrs) != 0 ? parseFloatIsNaN(data.pay_rate) / parseFloatIsNaN(data.slvl_amount) : 0;
 
     //OVERTIME
-    overtimeHrs.value =  (data.slvl_amount / data.pay_rate) * 8;
-    overtimeDA.value = data.ot_hrs != 0 ? (data.pay_rate / 8) * 1.25 * 1 : 0;
+    overtimeHrs.value =  (parseFloatIsNaN(data.slvl_amount) / parseFloatIsNaN(data.pay_rate)) * 8;
+    overtimeDA.value = parseIntIsNaN(data.ot_hrs) != 0 ? (parseFloatIsNaN(data.pay_rate) / 8) * 1.25 * 1 : 0;
 
     //OVERALL DAYS
-    overallDays.value = (slvlDays.value + basicDays.value + ((data.offdays * 8) / 8) + parseInt(data.holiday_hrs));
+    overallDays.value = (slvlDays.value + basicDays.value + ((parseIntIsNaN(data.offdays) * 8) / 8) + parseIntIsNaN(data.holiday_hrs));
 
     //TOTAL FOR ALL FOOTER
-    totalcontri.value = parseFloat(data.sss_loan) + parseFloat(data.sss_prem) + parseFloat(data.pag_ibig_loan) + parseFloat(data.pag_ibig_prem) + parseFloat(data.philhealth);
-    totaldeduc.value = parseFloat(data.advance) + parseFloat(data.charge) + parseFloat(data.uniform) + parseFloat(data.bond_deposit) + parseFloat(data.meal) + parseFloat(data.misc) + parseFloat(data.mutual_charge);
-    totalearnings.value = (basicPay.value + parseFloat(data.ot_amount) + parseFloat(data.holiday_amount) + parseFloat(data.nightdif_amount) + parseFloat(data.offdays_amount) + parseFloat(data.slvl_amount) + parseFloat(data.late_amount) + parseFloat(data.udt_amount) + parseFloat(data.ctlate_amount));
-    otherdeduc.value = parseFloat(data.late_amount) + parseFloat(data.udt_amount) + parseFloat(data.ctlate_amount);
-    net.value = parseFloat(totalearnings.value - (otherdeduc.value + totalcontri.value + totaldeduc.value));
+    totalcontri.value = parseFloatIsNaN(data.sss_loan) + parseFloatIsNaN(data.sss_prem) + parseFloatIsNaN(data.pag_ibig_loan) + parseFloatIsNaN(data.pag_ibig_prem) + parseFloatIsNaN(data.philhealth);
+    totaldeduc.value = parseFloatIsNaN(data.advance) + parseFloatIsNaN(data.charge) + parseFloatIsNaN(data.uniform) + parseFloatIsNaN(data.bond_deposit) + parseFloatIsNaN(data.meal) + parseFloatIsNaN(data.misc) + parseFloatIsNaN(data.mutual_charge);
+    totalearnings.value = (basicPay.value + parseFloatIsNaN(data.ot_amount) + parseFloatIsNaN(data.holiday_amount) + parseFloatIsNaN(data.nightdif_amount) + parseFloatIsNaN(data.offdays_amount) + parseFloatIsNaN(data.slvl_amount) + parseFloatIsNaN(data.late_amount) + parseFloatIsNaN(data.udt_amount) + parseFloatIsNaN(data.ctlate_amount));
+    otherdeduc.value = parseFloatIsNaN(data.late_amount) + parseFloatIsNaN(data.udt_amount) + parseFloatIsNaN(data.ctlate_amount);
+    net.value = parseFloatIsNaN(totalearnings.value - (otherdeduc.value + totalcontri.value + totaldeduc.value));
+
+
+
 };
 
 const generatePDF = async () => {
@@ -150,7 +172,7 @@ const generatePDF = async () => {
                                             PAY RATE:
                                         </span>
                                         <span class="inline-block pe-1">
-                                            {{ data.pay_rate }}
+                                            {{ parseFloatIsNaN(data.pay_rate) }}
                                         </span>
                                     </th>
                                     <th class="font-bold text-[11px] text-start" colspan="4">
@@ -214,7 +236,7 @@ const generatePDF = async () => {
                             <tbody>
                                 <tr>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">BASIC PAY</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.pay_rate }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ parseFloatIsNaN(data.pay_rate) }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ basicHrs }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ basicDays }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ basicPay }}</td>
@@ -222,13 +244,13 @@ const generatePDF = async () => {
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.uniform }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1"></td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">SSS LOAN</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="3">{{ data.sss_loan }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="3">{{ parseFloatIsNaN(data.sss_loan) }}</td>
                                 </tr>
                                 <tr>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">RESTSDAYS</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ (data.pay_rate / 8) * 1.30 * (data.offdays * 8) }}</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.offdays * 8 }}</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ (data.offdays * 8) / 8 }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ (parseFloatIsNaN(data.pay_rate) / 8) * 1.30 * (parseIntIsNaN(data.offdays) * 8) }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ parseIntIsNaN(data.offdays) * 8 }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ (parseIntIsNaN(data.offdays) * 8) / 8 }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.offdays_amount }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">ADVANCE</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.advance }}</td>
@@ -240,20 +262,20 @@ const generatePDF = async () => {
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">HOLIDAYS</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ holidayDA }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ holidayHrs }}</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.holiday_hrs }}</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.holiday_amount }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ parseIntIsNaN(data.holiday_hrs) }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ parseFloatIsNaN(data.holiday_amount) }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">BOND DEPOSIT</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.bond_deposit }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1"></td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">SSS PREM</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="3">{{ data.sss_prem }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="3">{{ parseFloatIsNaN(data.sss_prem) }}</td>
                                 </tr>
                                 <tr>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">SLVL</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.pay_rate }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ parseFloatIsNaN(data.pay_rate) }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ slvlHrs }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ slvlDays }}</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.slvl_amount }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ parseFloatIsNaN(data.slvl_amount) }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">CHARGE</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.charge }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1"></td>
@@ -263,7 +285,7 @@ const generatePDF = async () => {
                                 <tr>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">OVERTIME</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ overtimeDA }}</td>
-                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.ot_hrs }}</td>
+                                    <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ parseIntIsNaN(data.ot_hrs) }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start border border-gray-700" colspan="1">{{ overallDays }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">{{ data.ot_amount }}</td>
                                     <td class="pe-7 ps-2 py-1 text-[11px] text-start" colspan="1">MISC</td>
